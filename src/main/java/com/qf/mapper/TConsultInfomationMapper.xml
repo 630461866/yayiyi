@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TConsultInfomationMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TConsultInfomation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="consult_order_id" jdbcType="INTEGER" property="consultOrderId" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="complication_date" jdbcType="INTEGER" property="complicationDate" />
+    <result column="consult_purpose" jdbcType="VARCHAR" property="consultPurpose" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, consult_order_id, start_date, complication_date, consult_purpose
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_consult_infomation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_consult_infomation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TConsultInfomation">
+    insert into t_consult_infomation (id, consult_order_id, start_date, 
+      complication_date, consult_purpose)
+    values (#{id,jdbcType=INTEGER}, #{consultOrderId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
+      #{complicationDate,jdbcType=INTEGER}, #{consultPurpose,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TConsultInfomation">
+    insert into t_consult_infomation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="consultOrderId != null">
+        consult_order_id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="complicationDate != null">
+        complication_date,
+      </if>
+      <if test="consultPurpose != null">
+        consult_purpose,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="consultOrderId != null">
+        #{consultOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="complicationDate != null">
+        #{complicationDate,jdbcType=INTEGER},
+      </if>
+      <if test="consultPurpose != null">
+        #{consultPurpose,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TConsultInfomation">
+    update t_consult_infomation
+    <set>
+      <if test="consultOrderId != null">
+        consult_order_id = #{consultOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="complicationDate != null">
+        complication_date = #{complicationDate,jdbcType=INTEGER},
+      </if>
+      <if test="consultPurpose != null">
+        consult_purpose = #{consultPurpose,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TConsultInfomation">
+    update t_consult_infomation
+    set consult_order_id = #{consultOrderId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=DATE},
+      complication_date = #{complicationDate,jdbcType=INTEGER},
+      consult_purpose = #{consultPurpose,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--添加发病经历，主键回填-->
+  <insert id="addConsultInfomation"  parameterType="com.qf.entity.TConsultInfomation"  useGeneratedKeys="true" keyProperty="id">
+    insert into t_consult_infomation values(null,#{consultOrderId},#{startDate},#{complicationDate},#{consultPurpose})
+  </insert>
+
+  <!--通过订单id来确定当前订单的一个发病经历-->
+  <select id="getInfomation" parameterType="int" resultMap="BaseResultMap">
+    select *  from t_consult_infomation where  consult_order_id=#{orderId}
+  </select>
+
+  <!--查询咨询信息-->
+  <select id="consultantinfomationlist" parameterType="string" resultMap="BaseResultMap">
+    select * from t_consult_infomation
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{consultPurpose},'%')
+      </if>
+    </where>
+  </select>
+
+</mapper>

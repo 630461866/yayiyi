@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TGoodsOrderMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TGoodsOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_date" jdbcType="DATE" property="orderDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="order_picture" jdbcType="VARCHAR" property="orderPicture" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="order_total_price" jdbcType="DOUBLE" property="orderTotalPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, user_id, order_price, order_date, order_status, order_number, order_picture, 
+    goods_name, order_total_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TGoodsOrder">
+    insert into t_goods_order (id, goods_id, user_id, 
+      order_price, order_date, order_status, 
+      order_number, order_picture, goods_name, 
+      order_total_price)
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{orderPrice,jdbcType=DOUBLE}, #{orderDate,jdbcType=DATE}, #{orderStatus,jdbcType=VARCHAR}, 
+      #{orderNumber,jdbcType=VARCHAR}, #{orderPicture,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{orderTotalPrice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TGoodsOrder">
+    insert into t_goods_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="orderPicture != null">
+        order_picture,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="orderTotalPrice != null">
+        order_total_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPicture != null">
+        #{orderPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTotalPrice != null">
+        #{orderTotalPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TGoodsOrder">
+    update t_goods_order
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPicture != null">
+        order_picture = #{orderPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTotalPrice != null">
+        order_total_price = #{orderTotalPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TGoodsOrder">
+    update t_goods_order
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=DOUBLE},
+      order_date = #{orderDate,jdbcType=DATE},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_picture = #{orderPicture,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      order_total_price = #{orderTotalPrice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getgoodsPageList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from t_goods_order
+  </select>
+
+  <select id="getgoodsOrderList" parameterType="string" resultMap="BaseResultMap">
+    select * from t_goods_order
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="getGoodsOrderById"  parameterType="int" resultMap="BaseResultMap">
+    select * from t_goods_order where id = #{id}
+  </select>
+
+  <insert id="addGoodsOrder" parameterType="com.qf.entity.TGoodsOrder">
+    insert into t_goods_order values(null,#{goodsId},#{userId},#{orderPrice},#{orderDate},#{orderStatus},#{orderNumber},#{orderPicture},#{goodsName},null)
+  </insert>
+
+  <select id="findOrderByUserId" parameterType="int" resultMap="BaseResultMap">
+    select * from t_goods_order where user_id = #{userId}
+  </select>
+
+  <update id="updatePrice" >
+    update t_goods_order set order_total_price=#{totallGoodsPrice} where order_number=#{number}
+  </update>
+
+  <delete id="deleteOrder" parameterType="string">
+    delete from t_goods_order where order_number=#{orderNumber}
+  </delete>
+
+  <select id="orderByOrderNumber" parameterType="string" resultMap="BaseResultMap">
+    select * from t_goods_order where order_number=#{orderNumber}
+  </select>
+
+  <update id="updateOrderState" parameterType="string">
+    update t_goods_order set order_status="已支付" where order_number=#{orderNumber}
+  </update>
+
+
+</mapper>

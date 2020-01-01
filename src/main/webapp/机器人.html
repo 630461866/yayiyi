@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="ajax1.0.0.js"></script>
+    <script>
+    var params = {
+            method: 'post',
+            data: {
+                'key': 'c326e6779e6648a7afc16246fe3852c1',
+                'info': '你好',
+                'userid': '328595'
+            },
+            success:fn,
+        }
+        sendAjax('http://www.tuling123.com/openapi/api?key=c326e6779e6648a7afc16246fe3852c1', params)
+        function fn(data) {
+            console.log(data)
+        }
+    </script>
+</body>
+</html>

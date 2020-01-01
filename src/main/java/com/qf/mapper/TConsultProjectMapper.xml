@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TConsultProjectMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TConsultProject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_name, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_consult_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_consult_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TConsultProject">
+    insert into t_consult_project (id, project_name, price
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TConsultProject">
+    insert into t_consult_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TConsultProject">
+    update t_consult_project
+    <set>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TConsultProject">
+    update t_consult_project
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="consulprojjectlist" parameterType="string" resultMap="BaseResultMap">
+    select * from t_consult_project
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="getconsultProjectById"  parameterType="int" resultMap="BaseResultMap">
+	 	select * from t_consult_project where  id= #{id}
+	 </select>
+
+  <!--查询所有的咨询项目-->
+  <select id="getProjectList" resultMap="BaseResultMap">
+    select * from t_consult_project
+  </select>
+
+  <!--通过项目名字查项目id-->
+  <select id="getProjectId" parameterType="string" resultType="int">
+    select id from t_consult_project where project_name=#{project_name}
+  </select>
+
+  <!--通过项目id查项目的价格-->
+  <select id="getPriceById" parameterType="int" resultMap="BaseResultMap">
+    select * from t_consult_project where id=#{id}
+  </select>
+
+  <insert id="addinfo" parameterType="com.qf.entity.TConsultProject">
+    insert into t_consult_project (project_name, price) values (#{projectName},#{price})
+  </insert>
+
+  <delete id="deleteproject" parameterType="int">
+    delete from t_consult_project where id = #{id}
+  </delete>
+</mapper>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TConsultOrderMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TConsultOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="consult_project_id" jdbcType="INTEGER" property="consultProjectId" />
+    <result column="consult_project_name" jdbcType="VARCHAR" property="consultProjectName" />
+    <result column="doctor_id" jdbcType="INTEGER" property="doctorId" />
+    <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="order_date" jdbcType="DATE" property="orderDate" />
+    <result column="order_state" jdbcType="VARCHAR" property="orderState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, consult_project_id, consult_project_name, doctor_id, doctor_name, order_price, 
+    order_number, order_date, order_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_consult_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_consult_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TConsultOrder">
+    insert into t_consult_order (id, user_id, consult_project_id, 
+      consult_project_name, doctor_id, doctor_name, 
+      order_price, order_number, order_date, 
+      order_state)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{consultProjectId,jdbcType=INTEGER}, 
+      #{consultProjectName,jdbcType=VARCHAR}, #{doctorId,jdbcType=INTEGER}, #{doctorName,jdbcType=VARCHAR}, 
+      #{orderPrice,jdbcType=DOUBLE}, #{orderNumber,jdbcType=VARCHAR}, #{orderDate,jdbcType=DATE}, 
+      #{orderState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TConsultOrder">
+    insert into t_consult_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="consultProjectId != null">
+        consult_project_id,
+      </if>
+      <if test="consultProjectName != null">
+        consult_project_name,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="doctorName != null">
+        doctor_name,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="orderState != null">
+        order_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="consultProjectId != null">
+        #{consultProjectId,jdbcType=INTEGER},
+      </if>
+      <if test="consultProjectName != null">
+        #{consultProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="doctorName != null">
+        #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TConsultOrder">
+    update t_consult_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="consultProjectId != null">
+        consult_project_id = #{consultProjectId,jdbcType=INTEGER},
+      </if>
+      <if test="consultProjectName != null">
+        consult_project_name = #{consultProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="doctorName != null">
+        doctor_name = #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderState != null">
+        order_state = #{orderState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TConsultOrder">
+    update t_consult_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      consult_project_id = #{consultProjectId,jdbcType=INTEGER},
+      consult_project_name = #{consultProjectName,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=INTEGER},
+      doctor_name = #{doctorName,jdbcType=VARCHAR},
+      order_price = #{orderPrice,jdbcType=DOUBLE},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=DATE},
+      order_state = #{orderState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--添加一个咨询订单，主键回填-->
+  <insert id="addConsultOrder"  parameterType="com.qf.entity.TConsultOrder"  useGeneratedKeys="true" keyProperty="id">
+    insert into t_consult_order values(null,#{userId},#{consultProjectId},#{consultProjectName},#{doctorId},#{doctorName},#{orderPrice},#{orderNumber},#{orderDate},#{orderState})
+  </insert>
+
+  <!--查所有的咨询订单，到前端个人中心展示-->
+  <select id="getConsultantOrderList" parameterType="int" resultMap="BaseResultMap">
+    select *  from t_consult_order where user_id=#{userId}
+  </select>
+
+  <!--通过订单id查单个订单对象-->
+  <select id="getConsultantOrderByOrderId" parameterType="int" resultMap="BaseResultMap">
+    select *  from t_consult_order where id=#{ordeId}
+  </select>
+
+  <!--通过订单id去修改该条订单-->
+  <update id="changeOrder" parameterType="int">
+    update t_consult_order set order_state="已支付" where id=#{orderId}
+  </update>
+
+  <select id="getConsultantOrderListinfo" parameterType="string" resultMap="BaseResultMap">
+    select * from t_consult_order
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{doctorName},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

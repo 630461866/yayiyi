@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TGoodsAttributeMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TGoodsAttribute">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="goods_brand" jdbcType="VARCHAR" property="goodsBrand" />
+    <result column="goods_mark" jdbcType="INTEGER" property="goodsMark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_type, goods_brand, goods_mark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_attribute
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods_attribute
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TGoodsAttribute">
+    insert into t_goods_attribute (id, goods_type, goods_brand, 
+      goods_mark)
+    values (#{id,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, #{goodsBrand,jdbcType=VARCHAR}, 
+      #{goodsMark,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TGoodsAttribute">
+    insert into t_goods_attribute
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsType != null">
+        goods_type,
+      </if>
+      <if test="goodsBrand != null">
+        goods_brand,
+      </if>
+      <if test="goodsMark != null">
+        goods_mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBrand != null">
+        #{goodsBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMark != null">
+        #{goodsMark,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TGoodsAttribute">
+    update t_goods_attribute
+    <set>
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBrand != null">
+        goods_brand = #{goodsBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMark != null">
+        goods_mark = #{goodsMark,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TGoodsAttribute">
+    update t_goods_attribute
+    set goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_brand = #{goodsBrand,jdbcType=VARCHAR},
+      goods_mark = #{goodsMark,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--口腔护理-->
+  <!--首次点击产品目录，类别的展示-->
+  <select id="getGoodsTypeList" resultMap="BaseResultMap" >
+    select * from t_goods_attribute where goods_mark=0 and big_type_id=1
+  </select>
+  <!--首次点击产品目录，品牌的展示-->
+  <select id="getGoodsBrandList" resultMap="BaseResultMap">
+    select * from t_goods_attribute where goods_mark=1
+  </select>
+  <!--通过产品类别，查询品牌-->
+  <select id="getGoodsBrandListByTypeId" resultMap="BaseResultMap" parameterType="int">
+    select * from t_goods_attribute where goods_mark=#{id}
+  </select>
+  <!--通过单个品牌的id查询所有品牌-->
+  <select id="getGoodsBrandListByBrandId" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM t_goods_attribute WHERE goods_mark=(
+SELECT goods_mark FROM t_goods_attribute WHERE id=#{id})
+  </select>
+  <!--通过选中类别的id回显该类别-->
+  <select id="getGoodsTypeListByTypeId" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM t_goods_attribute WHERE id=#{id} and big_type_id=1
+  </select>
+  <!--通过选中的品牌id回显品牌的类别-->
+  <select id="getGoodsTypeListByBrandId" resultMap="BaseResultMap">
+    SELECT * FROM t_goods_attribute WHERE id=(
+SELECT goods_mark FROM t_goods_attribute WHERE id=#{id}) and big_type_id=#{bigTypeId}
+  </select>
+  <!--通过大类ID获取该大类中产品类别-->
+  <select id="getGoodsTypeListByBigTypeId" resultMap="BaseResultMap" parameterType="int">
+    select * from t_goods_attribute where goods_mark=0 and big_type_id=#{bigTypeId}
+  </select>
+  <!--大类Id为4，获取该大类中类别为牙齿矫正器的品牌-->
+  <select id="getGoodsBrandListFour" resultMap="BaseResultMap">
+    select * from t_goods_attribute where goods_mark=10
+  </select>
+  <!--通过goods中属性id(即t_goods_attribute的id),获取产品的类别-->
+  <select id="getGoodsTypeNameById" parameterType="int" resultMap="BaseResultMap">
+    SELECT * FROM t_goods_attribute WHERE id=(
+SELECT goods_mark FROM t_goods_attribute WHERE id=#{attributeId})
+  </select>
+  <!--大类Id为3，获取该大类中类别为康复器材的品牌-->
+  <select id="getGoodsBrandListThree" resultMap="BaseResultMap">
+    select * from t_goods_attribute where goods_mark=14
+  </select>
+  <!--List<TGoodsAttribute> getGoodsBrandListTwo();-->
+  <select id="getGoodsBrandListTwo" resultMap="BaseResultMap">
+    select * from t_goods_attribute where goods_mark=16
+  </select>
+</mapper>

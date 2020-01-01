@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TGoods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="attribute_id" jdbcType="INTEGER" property="attributeId" />
+    <result column="goods_price" jdbcType="DOUBLE" property="goodsPrice" />
+    <result column="goods_stock" jdbcType="INTEGER" property="goodsStock" />
+    <result column="goods_explain" jdbcType="VARCHAR" property="goodsExplain" />
+    <result column="goods_picture" jdbcType="VARCHAR" property="goodsPicture" />
+    <result column="goods_picture1" jdbcType="VARCHAR" property="goodsPicture1" />
+    <result column="goods_picture2" jdbcType="VARCHAR" property="goodsPicture2" />
+    <result column="goods_picture3" jdbcType="VARCHAR" property="goodsPicture3" />
+    <result column="goods_picture4" jdbcType="VARCHAR" property="goodsPicture4" />
+    <result column="goods_comment" jdbcType="VARCHAR" property="goodsComment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, goods_name, attribute_id, goods_price, goods_stock, goods_explain, goods_picture,
+    goods_picture1, goods_picture2, goods_picture3, goods_picture4, goods_comment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TGoods">
+    insert into t_goods (goods_id, goods_name, attribute_id,
+    goods_price, goods_stock, goods_explain,
+    goods_picture, goods_picture1, goods_picture2,
+    goods_picture3, goods_picture4, goods_comment
+    )
+    values (#{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{attributeId,jdbcType=INTEGER},
+    #{goodsPrice,jdbcType=DOUBLE}, #{goodsStock,jdbcType=INTEGER}, #{goodsExplain,jdbcType=VARCHAR},
+    #{goodsPicture,jdbcType=VARCHAR}, #{goodsPicture1,jdbcType=VARCHAR}, #{goodsPicture2,jdbcType=VARCHAR},
+    #{goodsPicture3,jdbcType=VARCHAR}, #{goodsPicture4,jdbcType=VARCHAR}, #{goodsComment,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TGoods">
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="attributeId != null">
+        attribute_id,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="goodsStock != null">
+        goods_stock,
+      </if>
+      <if test="goodsExplain != null">
+        goods_explain,
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture,
+      </if>
+      <if test="goodsPicture1 != null">
+        goods_picture1,
+      </if>
+      <if test="goodsPicture2 != null">
+        goods_picture2,
+      </if>
+      <if test="goodsPicture3 != null">
+        goods_picture3,
+      </if>
+      <if test="goodsPicture4 != null">
+        goods_picture4,
+      </if>
+      <if test="goodsComment != null">
+        goods_comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="attributeId != null">
+        #{attributeId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsStock != null">
+        #{goodsStock,jdbcType=INTEGER},
+      </if>
+      <if test="goodsExplain != null">
+        #{goodsExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null">
+        #{goodsPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture1 != null">
+        #{goodsPicture1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture2 != null">
+        #{goodsPicture2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture3 != null">
+        #{goodsPicture3,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture4 != null">
+        #{goodsPicture4,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsComment != null">
+        #{goodsComment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TGoods">
+    update t_goods
+    <set>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="attributeId != null">
+        attribute_id = #{attributeId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsStock != null">
+        goods_stock = #{goodsStock,jdbcType=INTEGER},
+      </if>
+      <if test="goodsExplain != null">
+        goods_explain = #{goodsExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture = #{goodsPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture1 != null">
+        goods_picture1 = #{goodsPicture1,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture2 != null">
+        goods_picture2 = #{goodsPicture2,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture3 != null">
+        goods_picture3 = #{goodsPicture3,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture4 != null">
+        goods_picture4 = #{goodsPicture4,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsComment != null">
+        goods_comment = #{goodsComment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TGoods">
+    update t_goods
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+    attribute_id = #{attributeId,jdbcType=INTEGER},
+    goods_price = #{goodsPrice,jdbcType=DOUBLE},
+    goods_stock = #{goodsStock,jdbcType=INTEGER},
+    goods_explain = #{goodsExplain,jdbcType=VARCHAR},
+    goods_picture = #{goodsPicture,jdbcType=VARCHAR},
+    goods_picture1 = #{goodsPicture1,jdbcType=VARCHAR},
+    goods_picture2 = #{goodsPicture2,jdbcType=VARCHAR},
+    goods_picture3 = #{goodsPicture3,jdbcType=VARCHAR},
+    goods_picture4 = #{goodsPicture4,jdbcType=VARCHAR},
+    goods_comment = #{goodsComment,jdbcType=VARCHAR}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <!--首次点击产品目录，产品的展示-->
+  <select id="getGoodsList" resultMap="BaseResultMap">
+    SELECT * FROM t_goods WHERE attribute_id in(
+SELECT id FROM t_goods_attribute WHERE goods_mark=1)
+  </select>
+ <!--通过类别查询商品-->
+  <select id="getGoodsListByTypeId" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM t_goods WHERE attribute_id in(
+    SELECT id FROM t_goods_attribute WHERE goods_mark=#{id})
+  </select>
+  <!--通过品牌查询商品-->
+  <select id="getGoodsListByBrandId" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM t_goods WHERE attribute_id=#{id}
+  </select>
+  <!--点击康复器材，产品的展示-->
+  <select id="getGoodsListFour" resultMap="BaseResultMap">
+    SELECT * FROM t_goods WHERE attribute_id in(
+    SELECT id FROM t_goods_attribute WHERE goods_mark=10)
+  </select>
+  <!--List<TGoods> getGoodsDetailsListByGoodsId(Integer goodsId);-->
+  <select id="getGoodsDetailsListByGoodsId" parameterType="int" resultMap="BaseResultMap">
+    SELECT * FROM t_goods WHERE goods_id=#{goodsId}
+  </select>
+  <!--康复器材的商品-->
+  <select id="getGoodsListThree" resultMap="BaseResultMap">
+    SELECT * FROM t_goods WHERE attribute_id in(
+    SELECT id FROM t_goods_attribute WHERE goods_mark=14)
+  </select>
+  <!--康复软件的商品-->
+  <select id="getGoodsListTwo" resultMap="BaseResultMap">
+    SELECT * FROM t_goods WHERE attribute_id in(
+    SELECT id FROM t_goods_attribute WHERE goods_mark=16)
+  </select>
+
+  <select id="getGoodById" parameterType="int" resultMap="BaseResultMap">
+    select * from t_goods where goods_id=#{goodsId}
+  </select>
+
+
+  <select id="getGoodslist" parameterType="string" resultMap="BaseResultMap">
+    select * from t_goods
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{goodsName},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TMenuMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TMenu">
+    <id column="MENU_ID" jdbcType="BIGINT" property="menuId" />
+    <result column="MENU_PARENT_ID" jdbcType="BIGINT" property="menuParentId" />
+    <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName" />
+    <result column="MENU_PATH" jdbcType="VARCHAR" property="menuPath" />
+    <result column="IS_PUBLISH" jdbcType="TINYINT" property="isPublish" />
+    <result column="MENU_TYPE" jdbcType="SMALLINT" property="menuType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MENU_ID, MENU_PARENT_ID, MENU_NAME, MENU_PATH, IS_PUBLISH, MENU_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_menu
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TMenu">
+    insert into t_menu (MENU_ID, MENU_PARENT_ID, MENU_NAME, 
+      MENU_PATH, IS_PUBLISH, MENU_TYPE
+      )
+    values (#{menuId,jdbcType=BIGINT}, #{menuParentId,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuPath,jdbcType=VARCHAR}, #{isPublish,jdbcType=TINYINT}, #{menuType,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TMenu">
+    insert into t_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        MENU_ID,
+      </if>
+      <if test="menuParentId != null">
+        MENU_PARENT_ID,
+      </if>
+      <if test="menuName != null">
+        MENU_NAME,
+      </if>
+      <if test="menuPath != null">
+        MENU_PATH,
+      </if>
+      <if test="isPublish != null">
+        IS_PUBLISH,
+      </if>
+      <if test="menuType != null">
+        MENU_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="menuParentId != null">
+        #{menuParentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPath != null">
+        #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null">
+        #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TMenu">
+    update t_menu
+    <set>
+      <if test="menuParentId != null">
+        MENU_PARENT_ID = #{menuParentId,jdbcType=BIGINT},
+      </if>
+      <if test="menuName != null">
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPath != null">
+        MENU_PATH = #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null">
+        IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="menuType != null">
+        MENU_TYPE = #{menuType,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TMenu">
+    update t_menu
+    set MENU_PARENT_ID = #{menuParentId,jdbcType=BIGINT},
+      MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      MENU_PATH = #{menuPath,jdbcType=VARCHAR},
+      IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      MENU_TYPE = #{menuType,jdbcType=SMALLINT}
+    where MENU_ID = #{menuId,jdbcType=BIGINT}
+  </update>
+
+  <!--查询所有的菜单，作为菜单树的展示数据-->
+  <select id="getMenuList" resultMap="BaseResultMap">
+      select * from t_menu where IS_PUBLISH=1
+  </select>
+  <!--查询当前角色拥有的菜单-->
+  <select id="getMenuIdsListByRoleId" parameterType="long" resultType="long">
+    select m.MENU_ID from
+    t_menu m
+    INNER JOIN
+    t_role_menu rm
+    ON
+    m.MENU_ID = rm.MENU_ID
+    where rm.ROLE_ID = #{roleId}
+    and
+    IS_PUBLISH = 1
+  </select>
+
+  <!--通过用户ID查询用户能看到菜单集合-->
+  <select id="getMenuListByUserId" parameterType="int" resultMap="BaseResultMap">
+    select DISTINCT m.* FROM
+    t_role_user ru,
+    t_role_menu rm,
+    t_menu m
+    where
+    ru.ROLE_ID = rm.ROLE_ID
+    and m.MENU_ID = rm.MENU_ID
+    and ru.USER_ID = #{id}
+    and m.IS_PUBLISH = 1
+  </select>
+
+  <!--通过角色ID，把菜单角色关系表中的数据全部删除-->
+  <delete id="deleteAuthMenuByRoleId" parameterType="long">
+      delete from t_role_menu where ROLE_ID = #{roleId}
+  </delete>
+
+  <!--重新添加数据到关系表中-->
+  <insert id="addAuthMenu">
+    insert into t_role_menu(role_id,menu_id) values
+    <foreach collection="ids" item="menuId" separator=",">
+      (#{roleId},#{menuId})
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TMedicalHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TMedicalHistory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="consult_information_id" jdbcType="INTEGER" property="consultInformationId" />
+    <result column="disease" jdbcType="VARCHAR" property="disease" />
+    <result column="hospital" jdbcType="VARCHAR" property="hospital" />
+    <result column="treatment_way" jdbcType="VARCHAR" property="treatmentWay" />
+    <result column="attend_doctor" jdbcType="VARCHAR" property="attendDoctor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, consult_information_id, disease, hospital, treatment_way, attend_doctor
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_medical_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_medical_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TMedicalHistory">
+    insert into t_medical_history (id, consult_information_id, disease, 
+      hospital, treatment_way, attend_doctor
+      )
+    values (#{id,jdbcType=INTEGER}, #{consultInformationId,jdbcType=INTEGER}, #{disease,jdbcType=VARCHAR}, 
+      #{hospital,jdbcType=VARCHAR}, #{treatmentWay,jdbcType=VARCHAR}, #{attendDoctor,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TMedicalHistory">
+    insert into t_medical_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="consultInformationId != null">
+        consult_information_id,
+      </if>
+      <if test="disease != null">
+        disease,
+      </if>
+      <if test="hospital != null">
+        hospital,
+      </if>
+      <if test="treatmentWay != null">
+        treatment_way,
+      </if>
+      <if test="attendDoctor != null">
+        attend_doctor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="consultInformationId != null">
+        #{consultInformationId,jdbcType=INTEGER},
+      </if>
+      <if test="disease != null">
+        #{disease,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null">
+        #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentWay != null">
+        #{treatmentWay,jdbcType=VARCHAR},
+      </if>
+      <if test="attendDoctor != null">
+        #{attendDoctor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TMedicalHistory">
+    update t_medical_history
+    <set>
+      <if test="consultInformationId != null">
+        consult_information_id = #{consultInformationId,jdbcType=INTEGER},
+      </if>
+      <if test="disease != null">
+        disease = #{disease,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null">
+        hospital = #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentWay != null">
+        treatment_way = #{treatmentWay,jdbcType=VARCHAR},
+      </if>
+      <if test="attendDoctor != null">
+        attend_doctor = #{attendDoctor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TMedicalHistory">
+    update t_medical_history
+    set consult_information_id = #{consultInformationId,jdbcType=INTEGER},
+      disease = #{disease,jdbcType=VARCHAR},
+      hospital = #{hospital,jdbcType=VARCHAR},
+      treatment_way = #{treatmentWay,jdbcType=VARCHAR},
+      attend_doctor = #{attendDoctor,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getmedicallHistoryList" parameterType="string" resultMap="BaseResultMap">
+    select * from t_medical_history
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{disease},'%')
+      </if>
+    </where>
+  </select>
+
+  <!--添加病史-->
+  <insert id="addMedicalHistory"  parameterType="com.qf.entity.TMedicalHistory">
+    insert into t_medical_history values(null,#{consultInformationId},#{disease},#{hospital},#{treatmentWay},#{attendDoctor})
+  </insert>
+
+  <!--通过发病经历的id去得到一个病史对象-->
+  <select id="getMedicalHistory" parameterType="int" resultMap="BaseResultMap">
+    select *  from t_medical_history where consult_information_id=#{infomationId}
+  </select>
+
+</mapper>

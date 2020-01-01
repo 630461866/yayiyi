@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TUserMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="id_num" jdbcType="INTEGER" property="idNum" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, password, sex, phone, id_num, age, email, birthday, province, city, county, 
+    picture_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TUser">
+    insert into t_user (id, name, password, 
+      sex, phone, id_num, 
+      age, email, birthday, 
+      province, city, county, 
+      picture_url)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{idNum,jdbcType=INTEGER}, 
+      #{age,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, 
+      #{pictureUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TUser">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TUser">
+    update t_user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TUser">
+    update t_user
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--查询用户信息-->
+  <select id="getUserPage" resultMap="BaseResultMap">
+    select * from t_user
+  </select>
+
+  <!--按条件查询用户信息-->
+  <select id="getUserByCondition" parameterType="string" resultMap="BaseResultMap">
+    select * from t_user
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+  <!--查询要修改的学生id-->
+  <select id="getUserById"  parameterType="int" resultMap="BaseResultMap">
+	 	select * from t_user where id = #{id}
+	 </select>
+
+  <update id="updateUser" parameterType="com.qf.entity.TUser">
+	 	update t_user set name =#{name},password=#{password},sex=#{sex},phone=#{phone},id_num=#{idNum},age=#{age},email=#{email},birthday=#{birthday},province=#{province},city=#{city},county=#{county},picture_url=#{pictureUrl} where id=#{id}
+	 </update>
+
+  <insert id="addinfo"  parameterType="com.qf.entity.TUser">
+		insert into t_user(name,password,sex,phone,id_num,age,email,birthday,province,city,county,picture_url)values(#{name},#{password},#{sex},#{phone},#{idNum},#{age},#{email},#{birthday},#{province},#{city},#{county},#{pictureUrl})
+	</insert>
+
+  <!--根据用户账号和密码查User对象，实现登录功能-->
+  <select id="findUserByNameandPassword" resultMap="BaseResultMap">
+    select *  from t_user where name=#{name} and password=#{password}
+  </select>
+  <!--根据用户名和身份证号，跳转到修改密码页面-->
+  <select id="verificationUserByNameAndIdNum" resultMap="BaseResultMap">
+    select *  from t_user where name=#{name} and id_num=#{idNum}
+  </select>
+  <!--忘记密码后的重置密码，实现修改密码-->
+  <update id="resetPasswordByIdAndPassword">
+    update t_user set password=#{password} where id=#{id}
+  </update>
+
+  <!--注册，添加用户-->
+  <insert id="register">
+    insert into t_user(name,password,email) values(#{name},#{password},#{email})
+  </insert>
+
+  <!--根据角色ID查询用户的分页信息-->
+  <select id="getAuthUserByRoleId" parameterType="long" resultMap="BaseResultMap">
+      select su.* from t_customer su where su.id in(select ru.user_id from t_role_user ru where ru.ROLE_ID = #{roleId})
+  </select>
+
+  <!--查询当前角色下没有的用户-->
+  <select id="getNoAuthUserByRoleId"  resultMap="BaseResultMap">
+    select su.* from t_customer su where su.id not in(
+    select ru.USER_ID from t_role_user ru where ru.ROLE_ID = #{roleId})
+    <if test="name!=null and name!=''">
+      and USER_NAME like concat('%',#{name},'%')
+    </if>
+  </select>
+
+  <delete id="deleteById">
+	 	delete from t_user where id =#{id}
+	 </delete>
+</mapper>

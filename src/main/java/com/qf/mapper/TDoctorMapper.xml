@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.TDoctorMapper">
+  <resultMap id="BaseResultMap" type="com.qf.entity.TDoctor">
+    <id column="doctor_id" jdbcType="INTEGER" property="doctorId" />
+    <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="departments" jdbcType="VARCHAR" property="departments" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="goodCount" jdbcType="INTEGER" property="goodcount" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    doctor_id, doctor_name, password, position, departments, photo, goodCount, project_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qf.entity.TDoctor">
+    insert into t_doctor (doctor_id, doctor_name, password, 
+      position, departments, photo, 
+      goodCount, project_id)
+    values (#{doctorId,jdbcType=INTEGER}, #{doctorName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{departments,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
+      #{goodcount,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.entity.TDoctor">
+    insert into t_doctor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="doctorName != null">
+        doctor_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="departments != null">
+        departments,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="goodcount != null">
+        goodCount,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="doctorName != null">
+        #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="departments != null">
+        #{departments,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodcount != null">
+        #{goodcount,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.entity.TDoctor">
+    update t_doctor
+    <set>
+      <if test="doctorName != null">
+        doctor_name = #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="departments != null">
+        departments = #{departments,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodcount != null">
+        goodCount = #{goodcount,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.entity.TDoctor">
+    update t_doctor
+    set doctor_name = #{doctorName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      departments = #{departments,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER}
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+
+  <select id="doctorlist" parameterType="string" resultMap="BaseResultMap">
+    select * from t_doctor
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        and name like concat('%',#{doctorName},'%')
+      </if>
+    </where>
+  </select>
+
+  <!--查询要修改的医生id-->
+  <select id="getDoctorByIds"  parameterType="int" resultMap="BaseResultMap">
+	 	select * from t_doctor where doctor_id = #{doctorId}
+	 </select>
+
+  <!--通过项目id查询所有该项目下的医生-->
+  <select id="getDoctorById" parameterType="int" resultMap="BaseResultMap">
+    select * from  t_doctor  where project_id=#{project_id}
+  </select>
+
+  <!--通过医生id查询一个医生对象-->
+  <select id="getDoctorByDoctorId" parameterType="int" resultMap="BaseResultMap">
+    select * from  t_doctor  where doctor_id=#{doctor_id}
+  </select>
+  <!--List<TDoctor> getDoctorInfo();-->
+  <select id="getDoctorInfo" resultMap="BaseResultMap" parameterType="string">
+    select * from  t_doctor
+    <where>
+    <choose>
+      <when test="_parameter!=null and _parameter!=''">
+        and departments=#{departments}
+      </when>
+      <otherwise>
+        departments="1"
+      </otherwise>
+    </choose>
+  </where>
+  </select>
+
+  <insert id="addinfo" parameterType="com.qf.entity.TConsultProject" >
+		 insert into t_doctor (doctor_name, password,position, departments, photo,goodCount, project_id)
+    values ( #{doctorName}, #{password},
+      #{position}, #{departments}, #{photo},
+      #{goodcount}, #{projectId})
+	</insert>
+  <update id="updateDoctor" parameterType="com.qf.entity.TDoctor">
+    update t_doctor
+    <set>
+      <if test="doctorName != null">
+        doctor_name = #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="departments != null">
+        departments = #{departments,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodcount != null">
+        goodCount = #{goodcount,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+</mapper>
